@@ -1,3 +1,4 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;HELPER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;next-state returns all possible states available for the given character
 (define (next-state character nfa)
   (cond ((null? nfa) nfa)
@@ -39,19 +40,26 @@
 ;;this is the acceptence state of our nfa which is first element of nfa
 (define (acceptence-state nfa)
   (car nfa))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;END HELPDER FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;MAIN FUNCTION ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;search using nfa
 
 (define (nfa-call pattern start_state nfa)
-    (display 'new-start-state) (display start_state) (newline)
-
+   ; (display 'new-start-state) (display start_state) (newline)
   (cond ((null? pattern)
          (cond ((not (member? start_state (acceptence-state nfa))) '())
                (else (list start_state))))  
        (else (backtrack pattern start_state (go-to-next-state start_state (car pattern) nfa) nfa))))
+;;;;;;;;;;;;;;;;;;;;;;END MAIN FUNCTION ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define nfa1 '((4) (1 (a 1 2 3) (b 1) (c 1)) (2 (b 3)) (3 (c 4))))
+;;;;;;;;;;;;;;;TESTING DATA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define p1 '((4) (1 (a 1 2 3) (b 1) (c 1)) (2 (b 3)) (3 (c 4))))
 ;(nfa-execute '(a  ) 1 m1) ;returns '(1 2 3 4)
-(nfa-call '(a b c) 1 nfa1)
-(define n1 '((5) (1 (n 1 2 ) (a 1) (0 1)) (2 (a 3)) (3 (n 1 4)) (4 (o 5))))
+;(nfa-call '(a b c) 1 p1)
+(define p2 '((5) (1 (n 1 2 ) (a 1) (0 1)) (2 (a 3)) (3 (n 1 4)) (4 (o 5))))
+(define p3 '((or 3 4) (1 (h 1 2) (e 1) (l 1)) (2 (e 3)) (3 (l 3 4))))
+;(nfa-call '(n a n a n o ) 1 p2)
+(nfa-call '(h e l l ) 1 p3)
 
-(nfa-call '(n a n a n o ) 1 n1)
+;;;;;;;;;;;;;;;;;;;;END OF TESTING ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
